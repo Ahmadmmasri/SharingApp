@@ -1,0 +1,262 @@
+﻿@using Microsoft.AspNetCore.Localization;
+@inject IViewLocalizer Localizer
+
+@{ 
+    var reqCulture = Context.Features.Get<IRequestCultureFeature>();
+    var culture = reqCulture.RequestCulture.Culture.Name;
+    bool IsArabic = culture == "ar-SA";
+}
+
+<!DOCTYPE html>
+<html lang="@(IsArabic ? "ar": "en")">
+<head>
+    <title>@ViewData["Title"] - SharingApp</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    @*<link rel="stylesheet" href="~/css/site.css" />*@
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Sharing : Home</title>
+
+    @if (IsArabic)
+    {
+
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+
+        <link href="~/css/RightToLeft.css" rel="stylesheet" />
+    }
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/icon" href="~/assets/images/favicon.ico" />
+    <!-- Font Awesome -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <!-- Slick slider -->
+    @*<link href="~/assets/css/slick.css" rel="stylesheet">*@
+    <!-- Gallery Lightbox -->
+    @* <link href="~/assets/css/magnific-popup.css" rel="stylesheet">*@
+    <!-- Skills Circle CSS  -->
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/circlebars@1.0.3/dist/circle.css">
+    <!-- Main Style -->
+    @*<link href="~/style.css" rel="stylesheet">*@
+    <!-- Fonts -->
+    <!-- Google Fonts Raleway -->
+    <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,400i,500,500i,600,700" rel="stylesheet">
+    <!-- Google Fonts Open sans -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700,800" rel="stylesheet">
+
+    <link href="~/css/assets.min.css" rel="stylesheet" asp-append-version="true" />
+
+    @*<link href="~/css/main.css" rel="stylesheet" />*@
+</head>
+<body dir="@(IsArabic ? "rtl": "ltr")">
+    <!--START SCROLL TOP BUTTON -->
+    <a class="scrollToTop" href="#">
+        <i class="fa fa-angle-up"></i>
+    </a>
+    <!-- END SCROLL TOP BUTTON -->
+    <!-- Start Header -->
+    <header id="mu-hero">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg navbar-light mu-navbar">
+                <!-- Text based logo -->
+                <a class="navbar-brand mu-logo" asp-controller="Home" asp-action="Index"><span>Sharing</span></a>
+                <!-- image based logo -->
+                <!-- <a class="navbar-brand mu-logo" href="index.html"><img src="~/assets/images/logo.png" alt="logo"></a> -->
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="fa fa-bars"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav mr-auto mu-navbar-nav text-left">
+                            <li class="nav-item @(Context.Request.Path.Value.ToLower()=="/home/index" ? "Active" :"" )">
+                                <a asp-area="" asp-controller="Home" asp-action="Index">@Localizer["Home"]</a>
+                            </li>
+                            <li class="nav-item @(Context.Request.Path.Value.ToLower()=="/home/browse" ? "Active" :"" )">
+                                <a asp-area="" asp-controller="Upload" asp-action="Browse">@Localizer["Browse"]</a>
+                            </li>
+                            <li class="nav-item @(Context.Request.Path.Value.ToLower()=="/home/browse" ? "Active" :"" )">
+                                <a asp-area="" asp-controller="Home" asp-action="About">@Localizer["About"]</a>
+                            </li>
+                            <li class="nav-item @(Context.Request.Path.Value.ToLower()=="/home/browse" ? "Active" :"" )">
+                                <a asp-area="" asp-controller="Home" asp-action="Contact">@Localizer["Contact"]</a>
+                            </li>
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <li class="nav-item @(Context.Request.Path.Value.ToLower()=="/home/upload" ? "Active" :"" )">
+                                    <a asp-area="" asp-controller="Upload" asp-action="Index">@Localizer["Upload"]</a>
+                                </li>
+                            }
+                        </ul>
+                        <ul class="navbar-nav mr-auto mu-navbar-nav  @(IsArabic ? "text-left": "text-right")">
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <li class="nav-item dropdown">
+                                    <a class="dropdown-toggle" href="#" role="button" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">@Localizer["Account"]</a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a class="@(Context.Request.Path.Value.ToLower()=="/Account/Info" ? "Active" :"" )" asp-area="" asp-controller="Account" asp-action="Info">@User.Identity.Name </a>
+                                        @if (User.IsInRole(UserRoles.Admin))
+                                        {
+                                            <a class="@(Context.Request.Path.Value.ToLower()=="/Account/Info" ? "Active" :"" )" asp-area="Admin" asp-controller="Home" asp-action="Index">Dashboard</a>
+                                        }
+                                        <a class="@(Context.Request.Path.Value.ToLower()=="/Account/Logout" ? "Active" :"" )" asp-area="" asp-controller="Account" asp-action="Logout">@Localizer["Logout"]</a>
+                                    </div>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item mr-3">
+                                    <a class="nav-item @(Context.Request.Path.Value.ToLower()=="/Account/Login" ? "Active" :"" )" asp-area="" asp-controller="Account" asp-action="Login">@Localizer["Login"]</a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-item @(Context.Request.Path.Value.ToLower()=="/Account/Login" ? "Active" :"" )" asp-area="" asp-controller="Account" asp-action="Register">@Localizer["Register"]</a>
+                                </li>
+                            }
+                        </ul>
+
+                    </div>
+
+
+
+                </div>
+            </nav>
+        </div>
+    </header>
+    <!-- End Header -->
+    <div class="container">
+        <main>
+            <div class="main-content">
+                @if (TempData["Success"] != null)
+                {
+                    <div class="alert alert-success text-center">
+                        <strong>@TempData["Success"]</strong>
+                    </div>
+                }
+                @if (TempData["Error"] != null)
+                {
+                    <div class="alert alert-danger text-center">
+                        <strong>@TempData["Error"]</strong>
+                    </div>
+                }
+                @RenderBody()
+            </div>
+        </main>
+    </div>
+
+
+
+    <!-- Start footer -->
+    <footer id="mu-footer">
+        <div class="mu-footer-top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="mu-single-footer">
+                            <img class="mu-footer-logo" src="~/assets/images/logo.png" alt="logo">
+                            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus. </p>
+                            <div class="mu-social-media">
+                                <a href="#"><i class="fa fa-facebook"></i></a>
+                                <a class="mu-twitter" href="#"><i class="fa fa-twitter"></i></a>
+                                <a class="mu-pinterest" href="#"><i class="fa fa-pinterest-p"></i></a>
+                                <a class="mu-google-plus" href="#"><i class="fa fa-google-plus"></i></a>
+                                <a class="mu-youtube" href="#"><i class="fa fa-youtube"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="mu-single-footer">
+                            <h3>Twitter feed</h3>
+                            <ul class="list-unstyled">
+                                <li class="media">
+                                    <span class="fa fa-twitter"></span>
+                                    <div class="media-body">
+                                        <p><strong>Sharing</strong> Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</p>
+                                        <a href="#">2 hours ago</a>
+                                    </div>
+                                </li>
+                                <li class="media">
+                                    <span class="fa fa-twitter"></span>
+                                    <div class="media-body">
+                                        <p><strong>Sharing</strong> Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</p>
+                                        <a href="#">2 hours ago</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="mu-single-footer">
+                            <h3>Languages</h3>
+                            <ul class="mu-useful-links">
+                                <li><a href="/Home/SetCulture?Lang=ar-SA&ReturnUrl=@Context.Request.Path.Value">العربية</a></li>
+                                <li><a href="/Home/SetCulture?Lang=en-US&ReturnUrl=@Context.Request.Path.Value">English</a></li>
+                            </ul>
+                            <h3>Useful link</h3>
+                            <ul class="mu-useful-links">
+                                <li><a href="#">Help Center</a></li>
+                                <li><a href="#">Download Center</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="mu-single-footer">
+                            <h3>Contact Information</h3>
+                            <ul class="list-unstyled">
+                                <li class="media">
+                                    <span class="fa fa-home"></span>
+                                    <div class="media-body">
+                                        <p>349 Main St, Deseronto, ON K0K 1X0, Canada</p>
+                                    </div>
+                                </li>
+                                <li class="media">
+                                    <span class="fa fa-phone"></span>
+                                    <div class="media-body">
+                                        <p>+00 123 456 789 00</p>
+                                        <p>+ 00 254 632 548 00</p>
+                                    </div>
+                                </li>
+                                <li class="media">
+                                    <span class="fa fa-envelope"></span>
+                                    <div class="media-body">
+                                        <p>support@bhero.com</p>
+                                        <p>help.behero@gmail.com</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mu-footer-bottom">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="mu-footer-bottom-area">
+                            <p class="mu-copy-right">&copy; Copyright <a rel="nofollow" asp-controller="Home" asp-action="Index">markups.io</a>. All right reserved.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </footer>
+    <!-- End footer -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lazyload@2.0.0-rc.2/lazyload.js"></script>
+    <script>
+        $(document).ready(function(){
+            lazyload();
+            console.log("work")
+        })
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

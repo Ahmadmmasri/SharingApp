@@ -1,0 +1,16 @@
+[
+  {
+    "outputFileName": "wwwroot/css/assets.min.css",
+    "inputFiles": [
+      "wwwroot/assets/css/slick.css",
+      "wwwroot/assets/css/magnific-popup.css",
+      "wwwroot/style.css",
+      "wwwroot/css/main.css"
+    ],
+    "minify": {
+      "enabled": true
+    },
+    "sourceMap": false
+
+  } 
+]

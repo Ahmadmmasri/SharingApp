@@ -1,0 +1,78 @@
+﻿@model IEnumerable<SharingApp.Models.UploadViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+    var extensions = new[] { "image/jpeg", "image/png" };
+}
+
+<h1>My Uploads</h1>
+
+<p class="text-right">
+    <a class="btn btn-success" asp-action="Create">Upload New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Preview</th>
+            <th>
+                @Html.DisplayNameFor(model => model.FileName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Size)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CountentType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UploadDate)
+            </th> 
+            <th>
+                @Html.DisplayNameFor(model => model.DownloadCount)
+            </th>  
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model)
+{
+        <tr>
+            <td>
+                @if (extensions.Contains(item.CountentType))
+                {
+                    <img data-src="/Uploads/@item.FileName" width="70" height="70" class="img-thumbnail lazyload" alt="Image" />
+                }
+
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OriginalName)
+            </td>
+            <td>
+                @{
+                    var size = item.Size / 1024; //KB
+                    if (size < 1024)
+                    {
+                        <span>@Math.Floor(size) Kb</span>
+                    }
+                    else
+                    {
+                        <span>@Math.Floor(size) Mb</span>
+                    }
+                }
+
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CountentType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UploadDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DownloadCount)
+            </td>
+            <td>
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

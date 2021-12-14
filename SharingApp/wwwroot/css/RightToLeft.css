@@ -1,0 +1,6 @@
+﻿body {
+    font-family: 'Cairo', sans-serif !important;
+}
+.input-group.input-group-lg{
+    direction:ltr !important;
+}

@@ -1,0 +1,39 @@
+﻿@model List<SharingApp.Areas.Admin.Models.AdminUserViewModel>
+
+@{ ViewBag.Title = "User List"; }
+
+<!-- Main content -->
+<section class="content">
+    <!-- Default box -->
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-4">
+                <a class="btn btn-success" asp-action="ExportExcel" asp-controller="User" asp-area="Admin">Export to Excel</a> ||
+                <a class="btn btn-success" asp-action="Users" asp-controller="Reports" asp-area="Admin">Export as Pdf</a>
+            </div>
+            <div class="col-md-8 offset-md-2">
+                <form asp-action="Search" asp-area="Admin" asp-controller="User">
+                    <div class="input-group">
+                        <input type="search" class="form-control form-control-lg mt-2" placeholder="Type your keywords here" name="term">
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-lg btn-default">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="card card-solid">
+        <div class="card-body pb-0">
+            <div class="row d-flex align-items-stretch">
+                @foreach (var item in Model)
+                {
+                    <partial name="_UserCard" model="item" />}
+            </div>
+        </div>
+    </div>
+    <!-- /.card -->
+</section>
+<!-- /.content -->

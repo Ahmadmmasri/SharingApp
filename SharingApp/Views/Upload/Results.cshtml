@@ -1,0 +1,48 @@
+﻿@model IEnumerable<SharingApp.Models.UploadViewModel>
+
+@{
+    ViewData["Title"] = "Results";
+}
+
+<h4>Search Reults</h4>
+<hr />
+<div class="container">
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="card mb-3 col-md-12">
+                <div class="row no-gutters">
+                    <div class="col-md-4">
+                        @if (item.CountentType.ToLower().StartsWith("image"))
+                        {
+                            <img src="/Uploads/@item.FileName" class="card-img" alt="@item.FileName">
+                        }
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <div class="col-3">
+
+                                <h5 class="card-title">@item.OriginalName</h5>
+                            </div>
+                            <p class="card-text"><small class="text-muted">@item.UploadDate</small></p>
+                            <div class="container text-right mt-5">
+                                <a target="_blank" asp-controller="Upload" asp-action="Download" asp-route-fileName="@item.FileName" class="btn btn-info">Download </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+    <div>
+        @if (ViewBag.CurrentPage - 1 > 0)
+        {
+            <a href="/Upload/Browse/?RequiredPage=@(ViewBag.CurrentPage - 1)" class="btn btn-outline-primary btn-lg align-left">Previous</a>
+        }
+        @if (ViewBag.CurrentPage + 1 <= ViewBag.PagesCount)
+        {
+            <a href="/Upload/Browse/?RequiredPage=@(ViewBag.CurrentPage + 1)" class="btn btn-outline-primary btn-lg align-right">Next</a>
+        }
+    </div>
+</div>

@@ -1,0 +1,78 @@
+﻿@model SharingApp.Models.RegisterViewModel
+@inject IViewLocalizer Localizer
+
+@{
+    ViewData["Title"] = @Localizer["Register"];
+}
+
+
+<section id="mu-contact">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="mu-contact-area">
+                    <!-- Title -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="mu-title">
+                                <h2>@Localizer["Register"]</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Start Contact Content -->
+                    <div class="mu-contact-content">
+                        <div class="row">
+
+                            <div class="col-md-12">
+                                <div class="mu-contact-form-area">
+                                    <div id="form-messages"></div>
+                                    <form method="post" asp-action="Register" asp-controller="Account" asp-route-ReturnUrl="@Context.Request.Query["ReturnUrl"]">
+                                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                                        <div class="form-group">
+                                            <span class="fa fa-pencil mu-contact-icon"></span>
+                                            <input type="text" asp-for="FirstName" class="form-control" placeholder="@Localizer["PlaceHolderFirstName"]" id="Email" required>
+                                            <span asp-validation-for="FirstName" class="text-danger"></span>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <span class="fa fa-pencil mu-contact-icon"></span>
+                                            <input type="text" asp-for="LastName" class="form-control" placeholder="@Localizer["PlaceHolderLastName"]" id="Email" required>
+                                            <span asp-validation-for="LastName" class="text-danger"></span>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <span class="fa fa-envelope mu-contact-icon"></span>
+                                            <input type="email" asp-for="Email" class="form-control" placeholder="@Localizer["PlaceHolderEmail"]" id="Email" required>
+                                            <span asp-validation-for="Email" class="text-danger"></span>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <span class="fa fa-lock mu-contact-icon"></span>
+                                            <input type="password" asp-for="Password" class="form-control" placeholder="@Localizer["PlaceHolderPass"]" id="pass" required>
+                                            <span asp-validation-for="Password" class="text-danger"></span>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <span class="fa fa-lock mu-contact-icon"></span>
+                                            <input type="password" asp-for="ConfirmPassword" class="form-control" placeholder="@Localizer["PlaceHolderConfirmPass"]" id="CpnfirmPass" required>
+                                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                                        </div>
+                                        <button type="submit" class="mu-send-msg-btn"><span>@Localizer["RegestierButtn"]</span></button>
+                                    </form>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- End Contact Content -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

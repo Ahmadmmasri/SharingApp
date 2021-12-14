@@ -1,0 +1,38 @@
+﻿@model IEnumerable<SharingApp.Areas.Admin.Models.NotificationViewModel>
+@*@model SharingApp.Areas.Admin.Models.NotificationViewModel*@
+
+
+
+@*<div class="dropdown-divider"></div>
+<a href="#" class="dropdown-item">
+    <i class="fas fa-envelope mr-2"></i>@Model.Email
+    @if (Model.Message.Length > 15)
+    {
+        <p>@Model.Message.Substring(1, 10) ...</p>
+    }
+    else
+    {
+        <p>@Model.Message</p>
+    }
+    <span class="float-right text-muted text-sm  moment-date">@Model.SendDate.ToString("yyyy-MM-dd hh:mm", new System.Globalization.CultureInfo("en-US"))</span>
+</a>*@
+
+
+
+@foreach (var item in Model)
+{
+<div class="dropdown-divider"></div>
+    <a href="#" class="dropdown-item">
+        <i class="fas fa-envelope mr-2"></i>@item.Email
+        @if (item.Message.Length > 15)
+        {
+            <p>@item.Message.Substring(1, 10) ...</p>
+        }
+        else
+        {
+            <p>@item.Message</p>
+        }
+        <span class="float-right text-muted text-sm  moment-date">@item.SendDate.ToString("yyyy-MM-dd hh:mm", new System.Globalization.CultureInfo("en-US"))</span>
+    </a>
+
+}

@@ -1,0 +1,113 @@
+﻿@model SharingApp.Models.UserViewModel
+@inject IViewLocalizer locaizer
+
+@{
+    ViewData["Title"] = "Create";
+}
+<div class="text-center alert alert-info">
+    <p>
+        <strong>@locaizer["EmailMessage"]</strong> :<span>@User.Identity.Name</span>
+    </p>
+    <p>
+        <strong>@locaizer["NameMessage"] </strong> :<span>@Model.FirstName @Model.LastName</span>
+    </p>
+
+    <h2>@locaizer["Manage"]</h2>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">@locaizer["passOption"]</button>
+</div>
+@if (!ViewContext.ModelState.IsValid)
+{
+<div asp-validation-summary="ModelOnly" class="text-danger alert alert-danger"></div>
+}
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success text-center">
+        <strong>@TempData["Success"]</strong>
+    </div>
+}
+<section id="mu-contact">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="mu-contact-area">
+                     Title 
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="mu-title">
+                                <h2>@locaizer["Info"]</h2>
+                            </div>
+                        </div>
+                    </div>
+                     Start Contact Content 
+                    <div class="mu-contact-content">
+                        <div class="row">
+
+                            <div class="col-md-12">
+                                <div class="mu-contact-form-area">
+                                    <div id="form-messages"></div>
+                                    <form method="post" asp-action="Info" asp-controller="Account">
+
+                                        <div class="form-group">
+                                            <span class="fa fa-pencil mu-contact-icon"></span>
+                                            <input type="text" asp-for="FirstName" class="form-control" placeholder="@locaizer["PlaceHolderFirstName"]" id="Email" required>
+                                            <span asp-validation-for="FirstName" class="text-danger"></span>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <span class="fa fa-pencil mu-contact-icon"></span>
+                                            <input type="text" asp-for="LastName" class="form-control" placeholder="@locaizer["PlaceHolderLastName"]" id="Email" required>
+                                            <span asp-validation-for="LastName" class="text-danger"></span>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <span class="fa fa-envelope mu-contact-icon"></span>
+                                            <input type="email" asp-for="Email" class="form-control" placeholder="@locaizer["PlaceHolderEmail"]" id="Email" readonly>
+                                            <span asp-validation-for="Email" class="text-danger"></span>
+                                        </div>
+
+                                        <button type="submit" class="mu-send-msg-btn"><span>@locaizer["Save"]</span></button>
+                                    </form>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                     End Contact Content 
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+@* model box *@
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @if (Model.HasPassword)
+                {
+                    <partial name="_ChangePasswordPartial" model="new ChangePasswordViewModel()" />
+                }
+                else
+                {
+                    <partial name="_AddPasswordPartial" model="new AddPasswordViewModel()" />
+                }
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">@locaizer["Close"]</button>
+            </div>
+        </div>
+    </div>
+</div>
+@* end box *@
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
